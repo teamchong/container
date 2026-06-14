@@ -1,0 +1,23 @@
+{
+  "name": "local-gateway",
+  "version": "0.1.0",
+  "description": "Transparent local/remote LLM gateway for Claude Code, Codex, and OpenCode. Pass through to the real provider by default; switch to a host-native llama.cpp model inline with @local.",
+  "type": "module",
+  "bin": {
+    "local-gateway": "bin/run.mjs"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "scripts/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "Apache-2.0"
+}
