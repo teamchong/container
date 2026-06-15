@@ -83,6 +83,27 @@ REGISTRY=registry.example.io/gemma-4-12b TAG=v1 scripts/pull-artifact.sh
 The pull script reassembles the chunks and clears the Gatekeeper quarantine
 attribute. Codesign/notarize the binary to skip that step.
 
+## Running inside apple/container (optional, sandboxed)
+
+By default the gateway runs as a plain host process. To run it isolated inside
+Apple's `container` (apple/container) Linux VM instead — the deployment where
+only llama.cpp stays native on the host:
+
+```bash
+scripts/run-in-container.sh        # builds the image and runs it
+```
+
+The gateway is I/O-bound, so the VM costs nothing in performance; the GPU work
+stays native. Two addresses must line up (both overridable):
+
+- your harness reaches the gateway via the **published port** (`-p 8787:8787`),
+  so `ANTHROPIC_BASE_URL=http://localhost:8787` still works on the host;
+- the gateway reaches the host's llama-server via the **host gateway IP**
+  (`LOCAL_LLAMA_BASE`, default `http://192.168.64.1:8080`).
+
+This is the one piece that needs validation on a real Mac — if traffic doesn't
+flow, the host gateway IP is the first thing to check.
+
 ## Configuration
 
 All env vars, all optional:
